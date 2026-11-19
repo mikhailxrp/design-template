@@ -3,3 +3,6 @@ __pycache__/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# снимки экранов для /design-review (см. prototype.md)
+.docs/design/screens/

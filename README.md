@@ -1,8 +1,9 @@
 # design-template — как сделать дизайн сайта по шагам
 
-Это набор команд для Claude Code. Он помогает сделать **дизайн любого сайта**
-(магазин, лендинг, блог, личный кабинет) и получить на выходе готовые файлы
-для вёрстки.
+Это набор команд и скиллов для **Claude Code** и **Antigravity** (и других
+AI-агентов с поддержкой `AGENTS.md` и `.agents/skills/`). Он помогает сделать
+**дизайн любого сайта** (магазин, лендинг, блог, личный кабинет) и получить на
+выходе готовые файлы для вёрстки.
 
 Объяснение для 10-летнего: **как построить дом**.
 
@@ -72,11 +73,12 @@ ux-brief → ux-flows → direction → tokens → system → prototype → revi
 ## Что делать — шаг за шагом
 
 Каждый шаг: **запусти команду → дождись ответа → проверь результат → иди дальше**.
-Команды пишутся в чат Claude Code в папке `design-template`.
+- В **Claude Code** пиши slash-команду в чат: `/ux-brief`, `/design-direction` и т. д.
+- В **Antigravity** пиши ту же команду (`/ux-brief`) или просто попроси в чате («запусти ux-brief», «сделай design-tokens») — агент сам подхватит нужный скилл из `.agents/skills/`.
 
 ### Шаг 0. Подготовка (один раз)
 
-1. Открой папку `design-template` в VS Code и запусти Claude Code.
+1. Открой папку `design-template` в своём редакторе и запусти **Claude Code** или **Antigravity**.
 2. Проверь, что стоит Python: в терминале `python --version`.
 3. Для быстрого пути поставь Pillow: `pip install pillow`.
 4. Положи входные материалы:
@@ -187,10 +189,15 @@ design-template/
 │   ├── vendor/tabler/         ← Tabler для админки (css/, js/, VERSION.md)
 │   └── design-system/index.html
 ├── prototypes/                ← «макеты»: готовые страницы
-└── tools/
-    ├── palette.py             ← цвета со скриншота
-    ├── build_tokens.py        ← tokens.json → vars.css (+ admin-theme.css)
-    └── build_admin_tokens.py  ← tokens-admin.json → admin-theme.css
+├── tools/
+│   ├── palette.py             ← цвета со скриншота
+│   ├── build_tokens.py        ← tokens.json → vars.css (+ admin-theme.css)
+│   ├── build_admin_tokens.py  ← tokens-admin.json → admin-theme.css
+│   └── check_design.py        ← кроссплатформенная проверка CSS и HTML
+├── AGENTS.md                  ← единые правила для AI-агентов (Antigravity, Claude Code)
+├── CLAUDE.md                  ← точка входа для Claude Code (ссылается на AGENTS.md)
+├── .agents/skills/            ← 7 шагов конвейера (единый источник инструкций)
+└── .claude/commands/          ← обёртки slash-команд для Claude Code
 ```
 
 Две главные вещи: **`assets/`** (из чего строить) и **`prototypes/`** (как
@@ -261,4 +268,5 @@ design-template/
 | Поменял `tokens-admin.json` руками | запусти `python tools/build_admin_tokens.py` — пересоберётся `admin-theme.css` |
 | Контраст ниже порога | `python tools/build_tokens.py` (или `build_admin_tokens.py` для админки) покажет какие пары; `/design-tokens` исправит сам |
 | Обновил Tabler | `python tools/build_admin_tokens.py` — в отчёте не должно быть «не найдены переменные» |
+| Быстро проверить CSS и HTML без `grep` | `python tools/check_design.py --scope all` (работает на Windows, macOS и Linux) |
 | В консоли Windows кракозябры вместо русского | перед командой: `set PYTHONIOENCODING=utf-8` (cmd) или `$env:PYTHONIOENCODING="utf-8"` (PowerShell) |
